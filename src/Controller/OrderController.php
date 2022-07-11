@@ -32,7 +32,7 @@ class OrderController extends AbstractController
     #[Route('/order', name: 'getOrders', methods: ['GET'])]
     public function getOrders(): JsonResponse
     {
-        return $this->json($this->orderRepository->findAll());
+        return $this->json($this->orderRepository->findAllOrders());
     }
 
     #[Route('/order/{importerSource}', name: 'importOrder', methods: ['PUT'])]
@@ -63,7 +63,7 @@ class OrderController extends AbstractController
             $this->orderRepository->flush();
 
             foreach ($orderPayload['items'] as $orderItemPayload) {
-                $product = $this->productRepository->find($orderItemPayload['productId']);
+                $product = $this->productRepository->findProduct($orderItemPayload['productId']);
                 $productVariant = $orderItemPayload['productVariant'];
 
                 if ($product !== null) {

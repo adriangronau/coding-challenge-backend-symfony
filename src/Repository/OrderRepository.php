@@ -30,4 +30,17 @@ class OrderRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->flush();
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // The following methods are declared explicitly so that the reader can be
+    // ensured what the return types are (without using an IDE that would infer
+    // that). For an actual project, these methods wouldn't be needed.
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * @return Order[]
+     */
+    public function findAllOrders(): array
+    {
+        return $this->findAll();
+    }
 }

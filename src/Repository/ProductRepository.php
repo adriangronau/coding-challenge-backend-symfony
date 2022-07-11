@@ -30,4 +30,14 @@ class ProductRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->flush();
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // The following methods are declared explicitly so that the reader can be
+    // ensured what the return types are (without using an IDE that would infer
+    // that). For an actual project, these methods wouldn't be needed.
+    ///////////////////////////////////////////////////////////////////////////
+    public function findProduct($id, $lockMode = null, $lockVersion = null): ?Product
+    {
+        return $this->find($id, $lockMode, $lockVersion);
+    }
 }
