@@ -32,11 +32,13 @@ class OrderController extends AbstractController
     #[Route('/order', name: 'getOrders', methods: ['GET'])]
     public function getOrders(): JsonResponse
     {
-        return $this->json($this->orderRepository->findAllOrders());
+        $orders = $this->orderRepository->findAllOrders();
+
+        return $this->json($orders);
     }
 
-    #[Route('/order/{importerSource}', name: 'importOrder', methods: ['PUT'])]
-    public function importOrder(Request $request, string $importerSource): JsonResponse
+    #[Route('/order/{orderType}/submit/{id}', name: 'createOrder', methods: ['POST'])]
+    public function createOrder(Request $request, string $orderType, int $id): JsonResponse
     {
         $orderPayload = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
@@ -50,9 +52,9 @@ class OrderController extends AbstractController
             $order->setCustomerAddressPostcode($orderPayload['customer']['address']['streetNumber']);
             $order->setCustomerAddressCity($orderPayload['customer']['address']['city']);
 
-            if ($importerSource === 'SYLIUS') {
+            if ($orderType === 'SYLIUS') {
                 $order->setCustomerAddressCountry('Germany');
-            } else if ($importerSource === 'MAGENTO' || $importerSource === 'SHOPWARE' || $importerSource === 'SHOPIFY') {
+            } else if ($orderType === 'MAGENTO' || $orderType === 'SHOPWARE' || $orderType === 'SHOPIFY') {
                 $order->setCustomerAddressCountry($orderPayload['customer']['address']['country']);
             } else {
                 $emailSegments = explode(".", $orderPayload['customer']['email']);
@@ -74,7 +76,7 @@ class OrderController extends AbstractController
                         $orderItem->setAmount($orderItemPayload['amount']);
                         $orderItem->setBillableAmount($orderItemPayload['amount']);
 
-                        if ($importerSource === 'SYLIUS' && $productVariant === 'VOUCHER_CODE') {
+                        if ($orderType === 'SYLIUS' && $productVariant === 'VOUCHER_CODE') {
                             $orderItem->setBillableAmount(0);
                             $orderItem->setForeignId(999_000_001);
                         }
@@ -96,7 +98,7 @@ class OrderController extends AbstractController
                             }
                         }
 
-                        if ($importerSource === 'SHOPWARE' && count($discounts) >= 2) {
+                        if ($orderType === 'SHOPWARE' && count($discounts) >= 2) {
                             foreach ($discounts as $i => $discount) {
                                 $discount->setForeignId(742_902_602);
 
