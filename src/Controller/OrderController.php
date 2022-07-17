@@ -37,6 +37,11 @@ class OrderController extends AbstractController
         return $this->json($orders);
     }
 
+    // TODO: Create an endpoint that returns all orders for a given city.
+    // TODO: Please sort the orders by the customers last name
+    // HINT: You can filter and sort in the application layer!
+    abstract public function getOrdersByCity(Request $request, string $city): JsonResponse;
+
     #[Route('/order/{orderType}/submit/{id}', name: 'createOrder', methods: ['POST'])]
     public function createOrder(Request $request, string $orderType, int $id): JsonResponse
     {

@@ -43,4 +43,12 @@ class OrderRepository extends ServiceEntityRepository
     {
         return $this->findAll();
     }
+
+    /**
+     * @return Order[]
+     */
+    public function findOrdersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
+    }
 }
