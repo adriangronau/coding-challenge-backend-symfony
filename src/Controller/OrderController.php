@@ -42,8 +42,8 @@ class OrderController extends AbstractController
     // HINT: You can filter and sort in the application layer!
     abstract public function getOrdersByCity(Request $request, string $city): JsonResponse;
 
-    #[Route('/order/{orderType}/submit/{id}', name: 'createOrder', methods: ['POST'])]
-    public function createOrder(Request $request, string $orderType, int $id): JsonResponse
+    #[Route('/order/{id}/submit/{orderType}', name: 'createOrder', methods: ['POST'])]
+    public function createOrder(Request $request, int $id, string $orderType): JsonResponse
     {
         $orderPayload = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
