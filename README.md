@@ -4,7 +4,7 @@
 
 The main file of interest is located at [`src/Controller/OrderController.php`](src/Controller/OrderController.php).
 All Entities are defined in `src/Entity` and are managed by Doctrine.
-Any other files are default Symfony 6 files which you don't need to pay attention to.
+Any other files are default Symfony 6 files that you don't need to pay attention to.
 
 ## Challenge / Task
 

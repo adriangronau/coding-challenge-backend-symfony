@@ -29,7 +29,7 @@ class OrderController extends AbstractController
         $this->productRepository = $this->container->get(ProductRepository::class);
     }
 
-    #[Route('/order', name: 'getOrders', methods: ['GET'])]
+    #[Route('/order', methods: ['GET'])]
     public function getOrders(): JsonResponse
     {
         $orders = $this->orderRepository->findAllOrders();
@@ -40,9 +40,12 @@ class OrderController extends AbstractController
     // TODO: Create an endpoint that returns all orders for a given city.
     // TODO: Please sort the orders by the customers last name
     // HINT: You can filter and sort in the application layer!
-    abstract public function getOrdersByCity(Request $request, string $city): JsonResponse;
+    public function getOrdersByCity(Request $request, string $city): JsonResponse
+    {
+        return $this->json([]);
+    }
 
-    #[Route('/order/{id}/submit/{orderType}', name: 'createOrder', methods: ['POST'])]
+    #[Route('/order/{id}/submit/{orderType}', methods: ['POST'])]
     public function createOrder(Request $request, int $id, string $orderType): JsonResponse
     {
         $orderPayload = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
